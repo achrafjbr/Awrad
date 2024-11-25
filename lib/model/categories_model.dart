@@ -2,7 +2,7 @@ import 'package:abu_sandia/model/quote_model.dart';
 
 class CategoriesModel {
   final String category;
-  final int views;
+   int views;
   final DateTime createdAt;
   final List<QuoteModel>? quotes;
 
@@ -22,7 +22,8 @@ class CategoriesModel {
       createdAt: DateTime.fromMillisecondsSinceEpoch(
         (int.parse(categories['createdAt'])),
       ),
-      quotes: categories['quote']?.map((quote) => QuoteModel.fromJson(quote)).toList(),
+      quotes: categories['quote']?.map((quote)
+      => QuoteModel.fromJson(quote)).toList(),
     );
   }
 
