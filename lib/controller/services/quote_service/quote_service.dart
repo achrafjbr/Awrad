@@ -43,7 +43,7 @@ class QuoteService implements Quote {
         await FireStoreInitialization.fireStoreInitialization()
             .collection(Collections.categoriesCollection)
             .orderBy('createdAt', descending: true)
-            .limit(3)
+            .limit(5)
             .get();
     newQuotesList =
         await getFiveMostQuotesSeen(categoryDocuments: mostSeenQuotes.docs);
