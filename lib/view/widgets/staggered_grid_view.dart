@@ -148,7 +148,7 @@ class StaggeredGridView extends StatelessWidget {
                         // Title : عدد المشاهدات
                         child: TextWidget(
                           textDirection: TextDirection.rtl,
-                          title: '${quotes[index].views} مشاهدة',
+                          title: '${quotes[index].views} المشاهدات',
                           textColor: AppThemes.kWhite,
                           textOverflow: TextOverflow.ellipsis,
                           textFontSize: Dimensions.setFontDimension(
