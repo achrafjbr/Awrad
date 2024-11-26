@@ -1,4 +1,4 @@
-# Awrads
+# Awrad
 
 A new Flutter project.
 
