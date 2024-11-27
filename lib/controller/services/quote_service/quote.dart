@@ -6,10 +6,10 @@ abstract class Quote {
   Future<QuerySnapshot<Map<String, dynamic>>> getQuotes(
       {required String document});
 
-  Future<List<List<QueryDocumentSnapshot<Map<String, dynamic>>>>>
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getMostSeenQuotes();
 
-  Future<List<List<QueryDocumentSnapshot<Map<String, dynamic>>>>>
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getNewQuotes();
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getNextQuotes({

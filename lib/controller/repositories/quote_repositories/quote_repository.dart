@@ -24,33 +24,27 @@ class QuoteRepository {
 
   Future<List<QuoteModel>> getMostSeenQuotes() async {
     List<QuoteModel> quotesModelList = [];
-    List<List<QueryDocumentSnapshot<Map<String, dynamic>>>> quotesList =
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> quotesList =
         await quote.getMostSeenQuotes();
-    for (final quotes in quotesList) {
-      quotesModelList = quotes.map((quote) {
-        Map<String, dynamic> data = quote.data();
-        print('views = ${data['views']}');
-        data['documentID'] = quote.id;
-        data['documentSnapshot'] = quote;
-        return QuoteModel.fromJson(data);
-      }).toList();
-    }
-    print(quotesModelList.length);
+    quotesModelList = quotesList.map((quote) {
+      Map<String, dynamic> data = quote.data();
+      data['documentID'] = quote.id;
+      data['documentSnapshot'] = quote;
+      return QuoteModel.fromJson(data);
+    }).toList();
     return quotesModelList;
   }
 
   Future<List<QuoteModel>> getNewQuotes() async {
     List<QuoteModel> quotesModelList = [];
-    List<List<QueryDocumentSnapshot<Map<String, dynamic>>>> quotesList =
-        await quote.getMostSeenQuotes();
-    for (final quotes in quotesList) {
-      quotesModelList = quotes.map((quote) {
-        Map<String, dynamic> data = quote.data();
-        data['documentID'] = quote.id;
-        data['documentSnapshot'] = quote;
-        return QuoteModel.fromJson(data);
-      }).toList();
-    }
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> quotesList =
+        await quote.getNewQuotes();
+    quotesModelList = quotesList.map((quote) {
+      Map<String, dynamic> data = quote.data();
+      data['documentID'] = quote.id;
+      data['documentSnapshot'] = quote;
+      return QuoteModel.fromJson(data);
+    }).toList();
     return quotesModelList;
   }
 

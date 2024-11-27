@@ -22,35 +22,66 @@ class QuoteService implements Quote {
   }
 
   @override
-  Future<List<List<QueryDocumentSnapshot<Map<String, dynamic>>>>>
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getMostSeenQuotes() async {
-    List<List<QueryDocumentSnapshot<Map<String, dynamic>>>> mostSeenQuotesList =
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> mostSeenQuotesList =
         [];
-    QuerySnapshot<Map<String, dynamic>> mostSeenQuotes =
+    QuerySnapshot<Map<String, dynamic>> mostSeenCategories =
         await FireStoreInitialization.fireStoreInitialization()
             .collection(Collections.categoriesCollection)
             .orderBy('views', descending: true)
             .limit(2)
             .get();
     mostSeenQuotesList =
-        await getFiveMostQuotesSeen(categoryDocuments: mostSeenQuotes.docs);
+        await getFiveMostQuotesSeen(categoryDocuments: mostSeenCategories.docs);
     return mostSeenQuotesList;
   }
 
   @override
-  Future<List<List<QueryDocumentSnapshot<Map<String, dynamic>>>>>
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getNewQuotes() async {
-    List<List<QueryDocumentSnapshot<Map<String, dynamic>>>> newQuotesList = [];
-    QuerySnapshot<Map<String, dynamic>> mostSeenQuotes =
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> newQuotesList = [];
+    QuerySnapshot<Map<String, dynamic>> newCategories =
         await FireStoreInitialization.fireStoreInitialization()
             .collection(Collections.categoriesCollection)
             .orderBy('createdAt', descending: true)
-            .limit(5)
+            .limit(2)
             .get();
     newQuotesList =
-        await getFiveMostQuotesSeen(categoryDocuments: mostSeenQuotes.docs);
+        await getFiveMostQuotesSeen(categoryDocuments: newCategories.docs);
     return newQuotesList;
   }
+
+
+  /// Helper method is founded in [getMostSeenQuotes] to get most seen Quotes
+  /// from different Categories.
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+  getFiveMostQuotesSeen({
+    required List<QueryDocumentSnapshot<Map<String, dynamic>>>
+    categoryDocuments,
+  }) async {
+    List<QueryDocumentSnapshot<Map<String, dynamic>>>
+    quotesSnapshotList = [];
+    for (final document in categoryDocuments) {
+      int index = 0;
+      QuerySnapshot<Map<String, dynamic>> quotesSnapshot =
+      await FireStoreInitialization.fireStoreInitialization()
+          .collection(Collections.categoriesCollection)
+          .doc(document.id)
+          .collection(Collections.quotesCollection)
+          .orderBy('views', descending: true)
+          .limit(5)
+          .get();
+      print('index length quote list $index ${quotesSnapshot.docs.length}');
+      index =index+1;
+      quotesSnapshotList.addAll(quotesSnapshot.docs);
+
+    }
+    return quotesSnapshotList;
+  }
+
+
+
 
   @override
   Future<void> seeQuote({
@@ -71,28 +102,6 @@ class QuoteService implements Quote {
     await batch.commit();
   }
 
-  /// Helper method is founded in [getMostSeenQuotes] to get most seen Quotes
-  /// from different Categories.
-  Future<List<List<QueryDocumentSnapshot<Map<String, dynamic>>>>>
-      getFiveMostQuotesSeen({
-    required List<QueryDocumentSnapshot<Map<String, dynamic>>>
-        categoryDocuments,
-  }) async {
-    List<List<QueryDocumentSnapshot<Map<String, dynamic>>>> quotesSnapshotList =
-        [];
-    for (final document in categoryDocuments) {
-      QuerySnapshot<Map<String, dynamic>> quotesSnapshot =
-          await FireStoreInitialization.fireStoreInitialization()
-              .collection(Collections.categoriesCollection)
-              .doc(document.id)
-              .collection(Collections.quotesCollection)
-              .orderBy('views', descending: true)
-              .limit(3)
-              .get();
-      quotesSnapshotList.add(quotesSnapshot.docs);
-    }
-    return quotesSnapshotList;
-  }
 
   @override
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getNextQuotes(
