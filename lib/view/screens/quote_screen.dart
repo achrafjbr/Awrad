@@ -92,7 +92,8 @@ class QuoteScreen extends StatelessWidget {
 
           // Quote description.
           Positioned(
-            top: Dimensions.setHeight(context: context, height: 0.20),
+            top: Dimensions.setHeight(context: context, height: 0.15),
+            bottom: Dimensions.setHeight(context: context, height: 0.02),
             child: AppPadding.symmetricPadding(
               context: context,
               horizontal: 0.03,
