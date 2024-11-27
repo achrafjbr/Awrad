@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import '../../../model/categories_model.dart';
 import '../../../model/quote_model.dart';
 
 part 'quote_state.dart';

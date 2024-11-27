@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../model/categories_model.dart';
 import '../../../model/quote_model.dart';
 
 abstract class Quote {
