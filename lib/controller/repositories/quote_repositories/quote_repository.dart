@@ -15,6 +15,7 @@ class QuoteRepository {
     quotesList = quotes.docs.map((document) {
       Map<String, dynamic> data = document.data();
       data['documentID'] = document.id;
+      data['documentSnapshot'] = document;
       return QuoteModel.fromJson(data);
     }).toList();
 
@@ -28,10 +29,13 @@ class QuoteRepository {
     for (final quotes in quotesList) {
       quotesModelList = quotes.map((quote) {
         Map<String, dynamic> data = quote.data();
+        print('views = ${data['views']}');
         data['documentID'] = quote.id;
+        data['documentSnapshot'] = quote;
         return QuoteModel.fromJson(data);
       }).toList();
     }
+    print(quotesModelList.length);
     return quotesModelList;
   }
 
@@ -40,9 +44,10 @@ class QuoteRepository {
     List<List<QueryDocumentSnapshot<Map<String, dynamic>>>> quotesList =
         await quote.getMostSeenQuotes();
     for (final quotes in quotesList) {
-      quotesModelList = quotesModelList = quotes.map((quote) {
+      quotesModelList = quotes.map((quote) {
         Map<String, dynamic> data = quote.data();
         data['documentID'] = quote.id;
+        data['documentSnapshot'] = quote;
         return QuoteModel.fromJson(data);
       }).toList();
     }
@@ -57,5 +62,24 @@ class QuoteRepository {
       category: category,
       quoteModel: quoteModel,
     );
+  }
+
+  Future<List<QuoteModel>> getNextQuotes({
+    DocumentSnapshot<Object?>? documentSnapshot,
+    required String category,
+  }) async {
+    List<QuoteModel> quotesModelList = [];
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> quotesList =
+        await quote.getNextQuotes(
+      category: category,
+      documentSnapshot: documentSnapshot,
+    );
+    quotesModelList = quotesList.map((quote) {
+      Map<String, dynamic> data = quote.data();
+      data['documentID'] = quote.id;
+      data['documentSnapshot'] = quote;
+      return QuoteModel.fromJson(data);
+    }).toList();
+    return quotesModelList;
   }
 }

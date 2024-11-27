@@ -16,25 +16,64 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../controller/cubits/cubit_instance_helper/cubit_instance.dart';
 import '../../controller/cubits/quotes_cubit/quote_cubit.dart';
 
-class QuotesCategoriesScreen extends StatelessWidget {
+class QuotesCategoriesScreen extends StatefulWidget {
   final String? category;
 
   const QuotesCategoriesScreen({
     super.key,
-     this.category,
+    this.category,
   });
 
   @override
-  Widget build(BuildContext context) {
+  State<QuotesCategoriesScreen> createState() => _QuotesCategoriesScreenState();
+}
+
+class _QuotesCategoriesScreenState extends State<QuotesCategoriesScreen> {
+  ScrollController scrollController = ScrollController();
+
+// QuoteCubit instance.
+  late QuoteCubit quoteCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
     // QuoteCubit instance.
-    QuoteCubit quoteCubitInstance =
-        CubitInstance<QuoteCubit>().cubitInstance(context: context);
-
+    quoteCubit = CubitInstance<QuoteCubit>().cubitInstance(context: context);
     // Get quotes.
-    quoteCubitInstance.getQuotes(
-      document: category!,
-    );
+    quoteCubit.getQuotes(document: widget.category!);
+  }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    scrollController.addListener(onScrolling);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+  }
+
+  void onScrolling() {
+    // If pixels of scroller achieve the max of screen
+    // and the length of [quotes] list > 10 means that previous
+    // that of this list is achieves the limit and getNextQuotes()
+    // method will execute.
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
+        quoteCubit.quotes.length > 10) {
+      // Get quotes.
+      quoteCubit.getNextQuotes(
+        category: widget.category!,
+        documentSnapshot: quoteCubit.quotes.last.documentSnapshot,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: AppPadding.symmetricPadding(
         context: context,
@@ -67,7 +106,7 @@ class QuotesCategoriesScreen extends StatelessWidget {
                 Box.setBox(context: context, width: 0.20),
                 // category title.
                 TextWidget(
-                  title: category!,
+                  title: widget.category!,
                   textDirection: TextDirection.rtl,
                   textAlign: TextAlign.center,
                   textColor: AppThemes.kWhite,
@@ -82,17 +121,21 @@ class QuotesCategoriesScreen extends StatelessWidget {
 
             // V.space.
             Box.verticalBox(context: context, height: 0.04),
-            // Quotes gridview:
 
+            // Quotes gridview:
             Expanded(
               child: BlocBuilder<QuoteCubit, QuoteState>(
                 builder: (context, state) {
+
                   if (state is QuoteLoadingState) {
                     return Center(child: CircularProgressIndicator());
-                  } else if (state is QuoteSuccessState) {
+                  }
+                  else if (state is QuoteSuccessState) {
                     return StaggeredGridView(
-                      category: category,
-                      quotes: quoteCubitInstance.quotes,
+                      // scrollController,
+                      scrollController: scrollController,
+                      category: widget.category,
+                      quotes: quoteCubit.quotes,
                     );
                   }
                   return SizedBox.shrink();

@@ -1,6 +1,8 @@
 import 'package:abu_sandia/controller/repositories/quote_repositories/quote_repository.dart';
 import 'package:abu_sandia/controller/services/quote_service/quote_service.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import '../../../model/categories_model.dart';
@@ -21,31 +23,56 @@ class QuoteCubit extends Cubit<QuoteState> {
 
   Future<void> getQuotes({required String document}) async {
     emit(QuoteLoadingState());
-    try{
+    try {
       quotes = await quoteRepository.getQuotes(document: document);
-    emit(QuoteSuccessState());
-    }catch(error){
+      emit(QuoteSuccessState());
+    } catch (error) {
       emit(QuoteErrorState(error: error.toString()));
     }
   }
 
   Future<void> getMostSeenQuotes() async {
     emit(QuoteLoadingState());
-    try{
+    try {
       mostSeenQuotes = await quoteRepository.getMostSeenQuotes();
       emit(QuoteSuccessState());
-    }catch(error){
+    } catch (error) {
       emit(QuoteErrorState(error: error.toString()));
     }
   }
 
   Future<void> getNewQuotes() async {
     emit(QuoteLoadingState());
-    try{
-       newQuotes = await quoteRepository.getNewQuotes();
+    try {
+      newQuotes = await quoteRepository.getNewQuotes();
       emit(QuoteSuccessState());
-    }catch(error){
+    } catch (error) {
       emit(QuoteErrorState(error: error.toString()));
+    }
+  }
+
+  bool isLoading = false;
+
+  Future<void> getNextQuotes({
+    DocumentSnapshot<Object?>? documentSnapshot,
+    required String category,
+  }) async {
+    isLoading = true;
+    emit(QuoteLoadingState());
+    try {
+      List<QuoteModel> nextQuotes = await quoteRepository.getNextQuotes(
+        documentSnapshot: documentSnapshot,
+        category: category,
+      );
+      if (nextQuotes.isNotEmpty) {
+        newQuotes.addAll(nextQuotes);
+      }
+      emit(QuoteSuccessState());
+      isLoading = false;
+    } catch (error) {
+      emit(QuoteErrorState(
+        error: error.toString(),
+      ));
     }
   }
 
@@ -60,5 +87,4 @@ class QuoteCubit extends Cubit<QuoteState> {
     );
     emit(QuoteSuccessState());
   }
-
 }

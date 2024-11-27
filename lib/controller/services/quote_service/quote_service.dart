@@ -8,13 +8,15 @@ import '../initialization_firebase_services/fire_store_initialization.dart';
 
 class QuoteService implements Quote {
   @override
-  Future<QuerySnapshot<Map<String, dynamic>>> getQuotes(
-      {required String document}) async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getQuotes({
+    required String document,
+  }) async {
     QuerySnapshot<Map<String, dynamic>> quotes =
         await FireStoreInitialization.fireStoreInitialization()
             .collection(Collections.categoriesCollection)
             .doc(document)
             .collection(Collections.quotesCollection)
+            .limit(10)
             .get();
     return quotes;
   }
@@ -92,5 +94,19 @@ class QuoteService implements Quote {
     return quotesSnapshotList;
   }
 
-
+  @override
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getNextQuotes(
+      {DocumentSnapshot<Object?>? documentSnapshot,
+      required String category}) async {
+    QuerySnapshot<Map<String, dynamic>> quotesSnapshot =
+        await FireStoreInitialization.fireStoreInitialization()
+            .collection(Collections.categoriesCollection)
+            .doc(category)
+            .collection(Collections.quotesCollection)
+            .orderBy('views', descending: true)
+            .startAfterDocument(documentSnapshot!)
+            .limit(10)
+            .get();
+    return quotesSnapshot.docs;
+  }
 }

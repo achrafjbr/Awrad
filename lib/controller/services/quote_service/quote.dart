@@ -13,6 +13,11 @@ abstract class Quote {
   Future<List<List<QueryDocumentSnapshot<Map<String, dynamic>>>>>
       getNewQuotes();
 
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getNextQuotes({
+    DocumentSnapshot? documentSnapshot,
+    required String category,
+  });
+
   Future<void> seeQuote({
     required String category,
     required QuoteModel quoteModel,

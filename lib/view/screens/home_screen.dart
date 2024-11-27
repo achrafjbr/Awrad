@@ -17,6 +17,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('home');
     // CategoryCubit instance.
     CategoryCubit categoryCubitInstance =
         CubitInstance<CategoryCubit>().cubitInstance(context: context);

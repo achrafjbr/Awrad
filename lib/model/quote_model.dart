@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class QuoteModel {
   final String quoteID;
   final String documentID;
@@ -6,8 +8,10 @@ class QuoteModel {
   final DateTime createdAt;
   int views;
   final String image;
+   DocumentSnapshot documentSnapshot;
 
   QuoteModel({
+    required this.documentSnapshot,
     required this.documentID,
     required this.image,
     required this.title,
@@ -21,7 +25,8 @@ class QuoteModel {
     Map<String, dynamic> quotes,
   ) =>
       QuoteModel(
-        documentID: quotes['documentID']??'',
+        documentSnapshot: quotes['documentSnapshot'],
+        documentID: quotes['documentID'] ?? '',
         image: quotes['image'],
         title: quotes['title'],
         description: quotes['description'],
@@ -30,6 +35,7 @@ class QuoteModel {
         createdAt: DateTime.fromMillisecondsSinceEpoch(
             (int.parse(quotes['createdAt']))),
       );
+
 
   Map<String, dynamic> toJson() => {
         'title': title,
