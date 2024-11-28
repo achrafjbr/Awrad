@@ -1,4 +1,5 @@
 import 'package:abu_sandia/controller/cubits/internet_cubit/connection_cubit.dart';
+import 'package:abu_sandia/routes/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +12,7 @@ class ConnectionListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ConnectionCubit, ConnectionStatus>(
       listener: (context, state) {
-        if (state  == ConnectionStatus.disconnected) {
+        if (state == ConnectionStatus.disconnected) {
           showDialog(
             context: context,
             barrierDismissible: false,
@@ -22,7 +23,8 @@ class ConnectionListener extends StatelessWidget {
             ),
           );
         } else {
-          Navigator.of(context).pop(); // Close the dialog if connection returns
+          // Close the dialog if connection returns
+          Navigation.popNavigator(context: context);
         }
       },
       child: child,
