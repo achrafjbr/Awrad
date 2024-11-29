@@ -14,7 +14,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../controller/cubits/cubit_instance_helper/cubit_instance.dart';
+import '../../controller/cubits/internet_cubit/connection_cubit.dart';
 import '../../controller/cubits/quotes_cubit/quote_cubit.dart';
+import '../widgets/offline_banner_widget.dart';
 
 class QuotesCategoriesScreen extends StatefulWidget {
   final String? category;
@@ -37,17 +39,22 @@ class _QuotesCategoriesScreenState extends State<QuotesCategoriesScreen> {
   @override
   void initState() {
     super.initState();
-    scrollController = ScrollController();
+
     // QuoteCubit instance.
     quoteCubit = CubitInstance<QuoteCubit>().cubitInstance(context: context);
-    // Get quotes.
-    quoteCubit.getQuotes(document: widget.category!);
+    scrollController = ScrollController();
+
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     scrollController.addListener(onScrolling);
+    if (context.watch<ConnectionCubit>().state
+        == ConnectionStatus.connected){
+      // Get quotes.
+      quoteCubit.getQuotes(document: widget.category!);
+    }
   }
 
   @override
@@ -74,75 +81,77 @@ class _QuotesCategoriesScreenState extends State<QuotesCategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AppPadding.symmetricPadding(
-        context: context,
-        horizontal: AppPaddingDimensions.horizontalPadding,
-        vertical: AppPaddingDimensions.verticalPadding,
-        child: Column(
-          children: [
-            // V.space.
-            Box.verticalBox(context: context, height: 0.04),
-            // Header includes:
-            // - BackButton.
-            // - Quote title.
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                HeaderButtonWidget(
-                  color: AppThemes.kPrimary,
-                  child: AssetImageWidget(
+    return OfflineBannerWidget(
+      child: Scaffold(
+        body: AppPadding.symmetricPadding(
+          context: context,
+          horizontal: AppPaddingDimensions.horizontalPadding,
+          vertical: AppPaddingDimensions.verticalPadding,
+          child: Column(
+            children: [
+              // V.space.
+              Box.verticalBox(context: context, height: 0.04),
+              // Header includes:
+              // - BackButton.
+              // - Quote title.
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  HeaderButtonWidget(
                     color: AppThemes.kPrimary,
-                    imageWidth: 0.06,
-                    imageHeight: 0.06,
-                    image: ImagePaths.backIcon,
-                    imageRoot: ImageRoots.appImagesRoot,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topLeft,
+                    child: AssetImageWidget(
+                      color: AppThemes.kPrimary,
+                      imageWidth: 0.06,
+                      imageHeight: 0.06,
+                      image: ImagePaths.backIcon,
+                      imageRoot: ImageRoots.appImagesRoot,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topLeft,
+                    ),
+                    onTap: () => Navigation.popNavigator(context: context),
                   ),
-                  onTap: () => Navigation.popNavigator(context: context),
-                ),
-                // H. space.
-                Box.setBox(context: context, width: 0.20),
-                // category title.
-                TextWidget(
-                  title: widget.category!,
-                  textDirection: TextDirection.rtl,
-                  textAlign: TextAlign.center,
-                  textColor: AppThemes.kWhite,
-                  textFontWeight: FontWeight.bold,
-                  textFontSize: Dimensions.setFontDimension(
-                    context: context,
-                    value: 0.10,
+                  // H. space.
+                  Box.setBox(context: context, width: 0.20),
+                  // category title.
+                  TextWidget(
+                    title: widget.category!,
+                    textDirection: TextDirection.rtl,
+                    textAlign: TextAlign.center,
+                    textColor: AppThemes.kWhite,
+                    textFontWeight: FontWeight.bold,
+                    textFontSize: Dimensions.setFontDimension(
+                      context: context,
+                      value: 0.10,
+                    ),
                   ),
-                ),
-              ],
-            ),
-
-            // V.space.
-            Box.verticalBox(context: context, height: 0.04),
-
-            // Quotes gridview:
-            Expanded(
-              child: BlocBuilder<QuoteCubit, QuoteState>(
-                builder: (context, state) {
-
-                  if (state is QuoteLoadingState) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  else if (state is QuoteSuccessState) {
-                    return StaggeredGridView(
-                      // scrollController,
-                      scrollController: scrollController,
-                      category: widget.category,
-                      quotes: quoteCubit.quotes,
-                    );
-                  }
-                  return SizedBox.shrink();
-                },
+                ],
               ),
-            ),
-          ],
+      
+              // V.space.
+              Box.verticalBox(context: context, height: 0.04),
+      
+              // Quotes gridview:
+              Expanded(
+                child: BlocBuilder<QuoteCubit, QuoteState>(
+                  builder: (context, state) {
+      
+                    if (state is QuoteLoadingState) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    else if (state is QuoteSuccessState) {
+                      return StaggeredGridView(
+                        // scrollController,
+                        scrollController: scrollController,
+                        category: widget.category,
+                        quotes: quoteCubit.quotes,
+                      );
+                    }
+                    return SizedBox.shrink();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

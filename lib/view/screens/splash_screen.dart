@@ -2,13 +2,17 @@ import 'package:abu_sandia/constants/images/image_roots.dart';
 import 'package:abu_sandia/routes/app_routes.dart';
 import 'package:abu_sandia/routes/navigation.dart';
 import 'package:abu_sandia/view/widgets/asset_image_widget.dart';
+import 'package:abu_sandia/view/widgets/offline_banner_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/images/image_paths.dart';
 import '../../constants/users/user.dart';
+import '../../controller/cubits/internet_cubit/connection_cubit.dart';
 import '../../responsiveness/responsive_component/box.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({super.key, this.child});
+  final Widget? child;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -22,39 +26,40 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 5),
-    );
-    _animation = Tween<double>(begin: 1,end: 0)
-        .animate(_animationController);
-    _animationController.forward();
-    // Waiting for 5 sec after navigate to the specific screen.
-    Future.delayed(
-      Duration(seconds: 5),
-      () {
-        // Jump to description screen
-        // if userID is equal to null
-        // other wise jump to home screen.
 
-        if (User.userID == null) {
-          if (mounted) {
-            Navigation.pushReplacementNamedNavigator(
-              context: context,
-              page: AppRoutes.descriptionScreen,
-            );
+      _animationController = AnimationController(
+        vsync: this,
+        duration: Duration(seconds: 5),
+      );
+      _animation =
+          Tween<double>(begin: 1, end: 0).animate(_animationController);
+      _animationController.forward();
+      // Waiting for 5 sec after navigate to the specific screen.
+      Future.delayed(
+        Duration(seconds: 5),
+        () {
+          // Jump to description screen
+          // if userID is equal to null
+          // other wise jump to home screen.
+
+          if (User.userID == null) {
+            if (mounted) {
+              Navigation.pushReplacementNamedNavigator(
+                context: context,
+                page: AppRoutes.descriptionScreen,
+              );
+            }
+          } else {
+            if (mounted) {
+              Navigation.pushReplacementNamedNavigator(
+                context: context,
+                page: AppRoutes.homeScreen,
+              );
+            }
           }
-        } else {
-          if (mounted) {
-            Navigation.pushReplacementNamedNavigator(
-              context: context,
-              page: AppRoutes.homeScreen,
-            );
-          }
-        }
-      },
-    );
-  }
+        },
+      );
+    }
 
   @override
   void dispose() {

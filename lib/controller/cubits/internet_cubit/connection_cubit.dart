@@ -1,30 +1,28 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 class ConnectionCubit extends Cubit<ConnectionStatus> {
-  ConnectionCubit() : super(ConnectionStatus.connected);
+  final Connectivity _connectivity;
 
-  final Connectivity _connectivity = Connectivity();
-
-  Future<void> init() async {
-    _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  ConnectionCubit(this._connectivity) : super(ConnectionStatus.connected) {
+    _monitorConnectivity();
   }
 
-  void _updateConnectionStatus(List<ConnectivityResult> result) {
-    emit(_getConnectivityStatus(result[0]));
-  }
-
-  ConnectionStatus _getConnectivityStatus(ConnectivityResult result) {
-    switch (result) {
-    case ConnectivityResult.wifi:
-    case ConnectivityResult.mobile:
-    return ConnectionStatus.connected;
-    case ConnectivityResult.none:
-    default:
-    return ConnectionStatus.disconnected;
-    }
+  void _monitorConnectivity() {
+    _connectivity.onConnectivityChanged.listen(
+      (result) {
+        switch (result[0]) {
+          case ConnectivityResult.wifi:
+          case ConnectivityResult.mobile:
+            emit(ConnectionStatus.connected);
+            break;
+          case ConnectivityResult.none:
+          default:
+            emit(ConnectionStatus.disconnected);
+            break;
+        }
+      },
+    );
   }
 
   @override
@@ -33,4 +31,5 @@ class ConnectionCubit extends Cubit<ConnectionStatus> {
     return super.close();
   }
 }
+
 enum ConnectionStatus { connected, disconnected }

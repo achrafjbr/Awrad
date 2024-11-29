@@ -6,7 +6,10 @@ import 'package:abu_sandia/controller/cubits/user_cache_cubit/user_cache_cubit.d
 import 'package:abu_sandia/routes/app_routes.dart';
 import 'package:abu_sandia/utils/user_caching/user_cache.dart';
 import 'package:abu_sandia/view/screens/connection_listener.dart';
+import 'package:abu_sandia/view/screens/home_screen.dart';
 import 'package:abu_sandia/view/screens/splash_screen.dart';
+import 'package:abu_sandia/view/widgets/offline_banner_widget.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,7 +37,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ConnectionCubit>(
-          create: (context) => ConnectionCubit()..init(),
+          create: (context) => ConnectionCubit(
+            Connectivity(),
+          ),
         ),
         BlocProvider<UserCacheCubit>(create: (context) => UserCacheCubit()),
         BlocProvider<CategoryCubit>(create: (context) => CategoryCubit()),
@@ -54,9 +59,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: AppRoutes.routes,
-        home: ConnectionListener(
-          child: SplashScreen(),
-        ),
+        home: SplashScreen(),
       ),
     );
   }
