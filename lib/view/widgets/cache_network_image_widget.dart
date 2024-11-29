@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../constants/themes/app_themes.dart';
 import '../../responsiveness/responsive_component/Dimensions.dart';
 
-/// This class is designed for image Message, however it can also deal with all image that coming from DB.
 class CacheNetworkImageWidget extends StatelessWidget {
   final String image;
   final BoxFit? fit;

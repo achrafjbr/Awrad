@@ -1,12 +1,10 @@
 import 'package:abu_sandia/constants/themes/app_themes.dart';
 import 'package:abu_sandia/controller/cubits/internet_cubit/connection_cubit.dart';
 import 'package:abu_sandia/responsiveness/responsive_component/Dimensions.dart';
-import 'package:abu_sandia/view/screens/home_screen.dart';
 import 'package:abu_sandia/view/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../screens/splash_screen.dart';
 
 class OfflineBannerWidget extends StatelessWidget {
   final Widget child;

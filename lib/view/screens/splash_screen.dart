@@ -4,11 +4,8 @@ import 'package:abu_sandia/routes/navigation.dart';
 import 'package:abu_sandia/view/widgets/asset_image_widget.dart';
 import 'package:abu_sandia/view/widgets/offline_banner_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/images/image_paths.dart';
 import '../../constants/users/user.dart';
-import '../../controller/cubits/internet_cubit/connection_cubit.dart';
-import '../../responsiveness/responsive_component/box.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, this.child});

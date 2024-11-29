@@ -1,9 +1,3 @@
-import 'package:abu_sandia/constants/images/image_extension.dart';
-import 'package:abu_sandia/constants/images/image_handler.dart';
-import 'package:abu_sandia/constants/images/image_paths.dart';
-import 'package:abu_sandia/constants/images/image_roots.dart';
-import 'package:abu_sandia/view/widgets/asset_image_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/themes/app_themes.dart';

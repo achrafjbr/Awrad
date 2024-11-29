@@ -4,8 +4,6 @@ import 'package:abu_sandia/routes/navigation.dart';
 import 'package:abu_sandia/view/widgets/cache_network_image_widget.dart';
 import 'package:abu_sandia/view/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
-import '../../controller/cubits/cubit_instance_helper/cubit_instance.dart';
-import '../../controller/cubits/quotes_cubit/quote_cubit.dart';
 import '../../responsiveness/responsive_component/app_padding.dart';
 import '../../responsiveness/responsive_component/dimensions.dart';
 import '../screens/quote_screen.dart';

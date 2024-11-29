@@ -1,14 +1,10 @@
-import 'dart:math';
-
 import 'package:abu_sandia/constants/padding/app_padding_dimensions.dart';
-import 'package:abu_sandia/constants/users/user.dart';
 import 'package:abu_sandia/controller/cubits/cubit_instance_helper/cubit_instance.dart';
 import 'package:abu_sandia/controller/cubits/user_cache_cubit/user_cache_cubit.dart';
 import 'package:abu_sandia/responsiveness/responsive_component/app_padding.dart';
 import 'package:abu_sandia/responsiveness/responsive_component/box.dart';
 import 'package:abu_sandia/routes/app_routes.dart';
 import 'package:abu_sandia/routes/navigation.dart';
-import 'package:abu_sandia/utils/user_caching/user_cache.dart';
 import 'package:abu_sandia/view/widgets/abu_sandia_picture.dart';
 import 'package:abu_sandia/view/widgets/elevated_button_widget.dart';
 import 'package:flutter/material.dart';
