@@ -2,7 +2,8 @@
 
 ## 🚀 Getting Started
 
-- Awrad app it's helps people to read some awrads it's contains Categories and each one of it contains a lot of awrads (Quotes) belong to certain category.
+- Awrad app it's helps people to read some awrads it's contains Categories and each one of it contains a lot of awrads (Quotes) belong to certain category .
+- It's has a simple dasboard that allows the admin add Categories and Awrads .
 
 ## 🤳 Screens
 
