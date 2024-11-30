@@ -28,13 +28,8 @@
 
 ## 📁 File Structure
 
-![image](https://github.com/AmmarAgeeza/Up-To-Do-App/assets/72443818/6bf5b32f-abb6-4a88-b96c-e67133dc7618)
+![image](https://github.com/user-attachments/assets/7d5d425f-7ab5-4435-be2c-36f42238074c)
 
-## 📱 UI
-
-![2](https://github.com/AmmarAgeeza/Up-To-Do-App/assets/72443818/bd589d06-bb71-4010-9899-709ead2d9545)
-
-![3](https://github.com/AmmarAgeeza/Up-To-Do-App/assets/72443818/a0583e2a-5a9e-4852-ac85-1bd9ec0d312b)
 
 ## 🎥 Video
 
@@ -43,20 +38,12 @@ https://github.com/AmmarAgeeza/Up-To-Do-App/assets/72443818/47054951-596b-4fe5-9
 ## 🛠 Dependencies
 
 ```pubspec.yaml
-  date_picker_timeline: 
-  flutter_bloc: 
-  flutter_screenutil: 
-  fluttertoast: 
-  get_it: 
-  google_fonts: 
-  intl: 
-  shared_preferences: 
-  smooth_page_indicator: 
-  sqflite: 
-  flutter_local_notifications: 
-  timezone: 
-  flutter_timezone: 
-  workmanager: 
+  shared_preferences: ^2.3.3
+  cached_network_image: ^3.4.1
+  flutter_bloc: ^8.1.6
+  firebase_core: ^3.8.0
+  cloud_firestore: ^5.5.0
+  connectivity_plus: ^6.1.0
 ```
 
 ## ☢️ Usage
@@ -75,9 +62,4 @@ https://github.com/AmmarAgeeza/Up-To-Do-App/assets/72443818/47054951-596b-4fe5-9
     ```bash
     flutter run
     ```
-
-## 🚨 Contributing
-
-- Contributions are welcome 💜
-- If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request.
 
