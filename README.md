@@ -33,7 +33,7 @@
 
 ## 🎥 Video
 
-https://github.com/AmmarAgeeza/Up-To-Do-App/assets/72443818/47054951-596b-4fe5-9eff-03abf357f8fe
+https://github.com/user-attachments/assets/b0c619bb-5349-4f69-82e1-e4ee8c34b826
 
 ## 🛠 Dependencies
 
