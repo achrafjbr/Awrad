@@ -21,7 +21,7 @@
 <p align= "center">
     <a href="https://www.youtube.com/shorts/bHjDPeS2zDw">
      <kbd>
-        <img  src="https://github.com/AmmarAgeeza/Up-To-Do-App/assets/72443818/0f267f9e-d2a3-41c6-8a4b-17a0b12abd6d" alt="Get this app on YouTube Playlist Tutorials">
+        <img  src="https://github.com/user-attachments/assets/ba58e8bc-ca26-49bc-903c-90ad4a8fb3c6" alt="Get this app on YouTube">
      </kbd>
   </a>
 
